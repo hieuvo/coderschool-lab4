@@ -16,14 +16,31 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        closePositionY = trayView.center.y
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    var openPositionY: CGFloat = 300
+    var closePositionY: CGFloat = 400
+    
+    @IBAction func onTap(sender: AnyObject) {
+        if trayView.center.y == closePositionY {
+            // move to open position
+            UIView.animateWithDuration(1, animations: { () -> Void in
+                self.trayView.center.y = self.openPositionY
+            })
+        } else {
+            // move to close position
+            UIView.animateWithDuration(1, animations: { () -> Void in
+                self.trayView.center.y = self.closePositionY
+            })
+        }
+    }
+    
     @IBAction func onDragTray(sender: UIPanGestureRecognizer) {
         
         let point = sender.locationInView(view)
@@ -38,8 +55,6 @@ class ViewController: UIViewController {
         } else if sender.state == UIGestureRecognizerState.Ended {
             print("Gesture ended at: \(point)")
         }
-        
-        
     }
 
 }
