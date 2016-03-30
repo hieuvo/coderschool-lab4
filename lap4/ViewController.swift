@@ -110,8 +110,11 @@ class ViewController: UIViewController {
     @IBAction func onNewFaceRotateGesture (sender: UIRotationGestureRecognizer) {
         let rotation = sender.rotation
         let imageView = sender.view as! NewImageView
-        imageView.transform = CGAffineTransformMakeRotation(rotation)
-        imageView.backToOriginalScale()
+        
+        let radians = atan2f(Float(imageView.transform.b), Float(imageView.transform.a))
+        
+        imageView.transform = CGAffineTransformRotate(imageView.transform, rotation - CGFloat(radians))
+//        imageView.backToOriginalScale()
         
 //        sender.rotation = 0
     }

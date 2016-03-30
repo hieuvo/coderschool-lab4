@@ -11,11 +11,13 @@ import UIKit
 class NewImageView: UIImageView {
     var originalScale: CGFloat = 1 {
         didSet {
-            self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
+//            self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
+            self.transform = CGAffineTransformScale(self.transform, originalScale, originalScale)
         }
     }
     
     func backToOriginalScale() {
-        self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
+//        self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
+        self.transform = CGAffineTransformScale(self.transform, originalScale, originalScale)
     }
 }
