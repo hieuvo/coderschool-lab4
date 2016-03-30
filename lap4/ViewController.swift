@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     var centerY: CGFloat = 0
     var isOpen: Bool = true
-    
+    var newlyCreatedFace : UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         centerY = trayView.center.y
@@ -58,6 +58,32 @@ class ViewController: UIViewController {
             print("Gesture ended at: \(point)")
         }
     }
+    
+    @IBAction func onPanGesture(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(view)
+        if sender.state == UIGestureRecognizerState.Began {
+            let imageView = sender.view as! UIImageView
+            
+            newlyCreatedFace = UIImageView(image: imageView.image)
+            view.addSubview(newlyCreatedFace)
+            
+            newlyCreatedFace.center = imageView.center
+            
+            newlyCreatedFace.center.y += trayView.frame.origin.y
+            
+        }else if sender.state == UIGestureRecognizerState.Changed {
+            newlyCreatedFace.center = location
+        }
+        
+    }
+    
 
 }
+
+
+
+
+
+
+
 
