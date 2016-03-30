@@ -81,6 +81,9 @@ class ViewController: UIViewController {
             
             let newPinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.onNewFacePinchGesture))
             newlyCreatedFace.addGestureRecognizer(newPinchGesture)
+            
+            let newRotating = UIRotationGestureRecognizer(target: self, action: #selector(ViewController.onNewFaceRotateGesture))
+            newlyCreatedFace.addGestureRecognizer(newRotating)
         }
     }
     
@@ -102,6 +105,15 @@ class ViewController: UIViewController {
         else if sender.state == UIGestureRecognizerState.Ended {
             imageView.backToOriginalScale()
         }
+    }
+    
+    @IBAction func onNewFaceRotateGesture (sender: UIRotationGestureRecognizer) {
+        let rotation = sender.rotation
+        let imageView = sender.view as! NewImageView
+        imageView.transform = CGAffineTransformMakeRotation(rotation)
+        imageView.backToOriginalScale()
+        
+//        sender.rotation = 0
     }
 
 }
