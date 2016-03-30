@@ -63,7 +63,6 @@ class ViewController: UIViewController {
         let location = sender.locationInView(view)
         if sender.state == UIGestureRecognizerState.Began {
             let imageView = sender.view as! UIImageView
-            
             newlyCreatedFace = UIImageView(image: imageView.image)
             view.addSubview(newlyCreatedFace)
             
@@ -74,9 +73,23 @@ class ViewController: UIViewController {
         }else if sender.state == UIGestureRecognizerState.Changed {
             newlyCreatedFace.center = location
         }
-        
+        else if sender.state == UIGestureRecognizerState.Ended {
+            let newGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.onNewFaceMovingPanGesture))
+            newlyCreatedFace.addGestureRecognizer(newGesture)
+            newlyCreatedFace.userInteractionEnabled = true
+        }
     }
     
+    @IBAction func onNewFaceMovingPanGesture(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(view)
+        sender.view!.center = location
+        if sender.state == UIGestureRecognizerState.Began {
+            sender.view?.transform = CGAffineTransformMakeScale(1.5, 1.5)
+        }
+        else if sender.state == UIGestureRecognizerState.Ended {
+            sender.view?.transform = CGAffineTransformMakeScale(1, 1)
+        }
+    }
 
 }
 
