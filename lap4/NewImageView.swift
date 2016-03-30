@@ -17,7 +17,7 @@ class NewImageView: UIImageView {
     }
     
     func backToOriginalScale() {
-//        self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
-        self.transform = CGAffineTransformScale(self.transform, originalScale, originalScale)
+        self.transform = CGAffineTransformMakeScale(originalScale, originalScale)
+//        self.transform = CG(originalScale, originalScale)
     }
 }
