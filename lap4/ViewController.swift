@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         let location = sender.locationInView(view)
         if sender.state == UIGestureRecognizerState.Began {
             let imageView = sender.view as! UIImageView
-            newlyCreatedFace = UIImageView(image: imageView.image)
+            newlyCreatedFace = NewImageView(image: imageView.image)
             view.addSubview(newlyCreatedFace)
             
             newlyCreatedFace.center = imageView.center
@@ -74,20 +74,33 @@ class ViewController: UIViewController {
             newlyCreatedFace.center = location
         }
         else if sender.state == UIGestureRecognizerState.Ended {
-            let newGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.onNewFaceMovingPanGesture))
-            newlyCreatedFace.addGestureRecognizer(newGesture)
             newlyCreatedFace.userInteractionEnabled = true
+            
+            let newPanGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.onNewFaceMovingPanGesture))
+            newlyCreatedFace.addGestureRecognizer(newPanGesture)
+            
+            let newPinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.onNewFacePinchGesture))
+            newlyCreatedFace.addGestureRecognizer(newPinchGesture)
         }
+    }
+    
+    @IBAction func onNewFacePinchGesture(sender: UIPinchGestureRecognizer) {
+        if sender.state == UIGestureRecognizerState.Changed {
+            let imageView = sender.view as! NewImageView
+            imageView.originalScale = sender.scale
+        }
+        
     }
     
     @IBAction func onNewFaceMovingPanGesture(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(view)
-        sender.view!.center = location
+        let imageView = sender.view as! NewImageView
+        imageView.center = location
         if sender.state == UIGestureRecognizerState.Began {
-            sender.view?.transform = CGAffineTransformMakeScale(1.5, 1.5)
+            imageView.transform = CGAffineTransformMakeScale(imageView.originalScale + 0.2, imageView.originalScale + 0.2)
         }
         else if sender.state == UIGestureRecognizerState.Ended {
-            sender.view?.transform = CGAffineTransformMakeScale(1, 1)
+            imageView.backToOriginalScale()
         }
     }
 
