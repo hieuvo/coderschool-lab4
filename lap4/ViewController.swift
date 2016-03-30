@@ -13,10 +13,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var trayView: UIView!
     
     var centerY: CGFloat = 0
+    var isOpen: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        closePositionY = trayView.center.y
+        centerY = trayView.center.y
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,21 +25,22 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    var openPositionY: CGFloat = 300
-    var closePositionY: CGFloat = 400
+    var movingDistance: CGFloat = 140
     
     @IBAction func onTap(sender: AnyObject) {
-        if trayView.center.y == closePositionY {
+        if isOpen {
             // move to open position
             UIView.animateWithDuration(1, animations: { () -> Void in
-                self.trayView.center.y = self.openPositionY
+                self.trayView.center.y = self.centerY + self.movingDistance
             })
         } else {
             // move to close position
             UIView.animateWithDuration(1, animations: { () -> Void in
-                self.trayView.center.y = self.closePositionY
+                self.trayView.center.y = self.centerY
             })
         }
+        
+        isOpen = !isOpen
     }
     
     @IBAction func onDragTray(sender: UIPanGestureRecognizer) {
